@@ -498,7 +498,11 @@
             body: JSON.stringify(payload)
         })
        .then(() => {
-            alert(`Matagumpay na na-submit at na-save sa Google Sheet ang ASN!\n\nDelivery Date: ${deliveryDate}`);
+            alert(`ASN Successfully Submit and Save, Receiving Time:
+
+Monday to Saturday: 8:00 AM – 3:00 PM
+
+Sunday: 8:00 AM – 12:00 PM \n\nDelivery Date: ${deliveryDate}`);
             
             // Isang linya na lang ang kailangan para linisin at i-refresh ang buong page:
             location.reload();
