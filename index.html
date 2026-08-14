@@ -182,7 +182,8 @@
         }
 
         .po-table input[name="poNumber[]"] {
-            min-width: 180px; 
+           min-width: 120px;
+           max-width: 160px; /* Pigilan ang sobrang paghaba */
         }
 
         .po-table input:focus {
@@ -357,14 +358,14 @@
                 <table class="po-table">
                     <thead>
                         <tr>
-                            <th style="width: 60%;">P.O. Number</th>
-                            <th style="width: 25%;">No. Of Boxes</th>
+                            <th style="width: 40%;">P.O. Number</th>
+                            <th style="width: 45%;">No. Of Boxes</th>
                             <th style="width: 15%; text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody id="poTableBody">
                         <tr class="row-animation">
-                            <td><input type="text" name="poNumber[]" inputmode="numeric" placeholder="xxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></td>
+                            <td><input type="text" maxlength="12" name="poNumber[]" inputmode="numeric" placeholder="xxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></td>
                             <td><input type="text" name="noOfBoxes[]" inputmode="numeric" class="box-input" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
                             <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
                         </tr>
