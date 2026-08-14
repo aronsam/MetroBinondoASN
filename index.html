@@ -151,11 +151,18 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .po-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 480px;
-        }
+
+.po-table input.box-input {
+    width: 90px; /* Mas maikli kumpara sa P.O. field */
+    text-align: center;
+}
+
+       .po-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 100%; /* Binawasan para kasya sa screen */
+}
+
 
         .po-table th {
             background-color: #f1f5f9;
@@ -182,8 +189,9 @@
         }
 
         .po-table input[name="poNumber[]"] {
-           min-width: 120px;
-           max-width: 160px; /* Pigilan ang sobrang paghaba */
+          width: 100%;
+    min-width: 140px; 
+    max-width: 100%;
         }
 
         .po-table input:focus {
@@ -414,7 +422,7 @@
         newRow.className = 'row-animation';
 
         newRow.innerHTML = `
-            <td><input type="text" name="poNumber[]" placeholder="hal. 1234567890" required></td>
+            <td><input type="text" name="poNumber[]" placeholder="hal. 1234567890" maxlength="12" required></td>
             <td><input type="number" name="noOfBoxes[]" class="box-input" min="1" placeholder="0" oninput="calculateTotal()" required></td>
             <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
         `;
