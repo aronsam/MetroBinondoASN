@@ -151,18 +151,16 @@
             -webkit-overflow-scrolling: touch;
         }
 
+        .po-table input.box-input {
+            width: 90px;
+            text-align: center;
+        }
 
-.po-table input.box-input {
-    width: 90px; /* Mas maikli kumpara sa P.O. field */
-    text-align: center;
-}
-
-       .po-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 100%; /* Binawasan para kasya sa screen */
-}
-
+        .po-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 100%;
+        }
 
         .po-table th {
             background-color: #f1f5f9;
@@ -189,9 +187,9 @@
         }
 
         .po-table input[name="poNumber[]"] {
-          width: 100%;
-    min-width: 140px; 
-    max-width: 100%;
+            width: 100%;
+            min-width: 140px; 
+            max-width: 100%;
         }
 
         .po-table input:focus {
@@ -287,27 +285,110 @@
             box-shadow: none;
         }
 
+        .btn-verify {
+            width: 100%;
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-verify:hover {
+            background-color: rgba(0, 75, 147, 0.08);
+            border-color: var(--primary-hover);
+            color: var(--primary-hover);
+        }
+
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 440px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: scale(0.95);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-modal-close {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .btn-modal-confirm {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            flex: 1;
+            cursor: pointer;
+        }
+
         @media (max-width: 600px) {
-            body {
-                padding: 10px 4px;
-            }
-            .container {
-                padding: 16px 12px;
-                border-radius: 12px;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full-width {
-                grid-column: span 1;
-            }
-            .custom-date-group {
-                grid-template-columns: 1fr;
-            }
-            .form-group input, .form-group select, .po-table input {
-                padding: 12px 10px;
-                font-size: 15px;
-            }
+            body { padding: 10px 4px; }
+            .container { padding: 16px 12px; border-radius: 12px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .custom-date-group { grid-template-columns: 1fr; }
+            .form-group input, .form-group select, .po-table input { padding: 12px 10px; font-size: 15px; }
         }
     </style>
 </head>
@@ -321,7 +402,6 @@
         </div>
 
         <form id="asnForm">
-            
             <div class="form-grid">
                 <div class="form-group full-width">
                     <label for="supplierName">Supplier Name</label>
@@ -330,7 +410,7 @@
 
                 <div class="form-group">
                     <label for="contactNumber">Contact Number</label>
-                    <input type="tel" id="contactNumber" placeholder="09XX XXX XXXX" required>
+                    <input type="tel" id="contactNumber" placeholder="09XXXXXXXXX" maxlength="11" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                 </div>
 
                 <div class="form-group">
@@ -345,14 +425,14 @@
                             <option value="May">May</option>
                             <option value="June">June</option>
                             <option value="July">July</option>
-                            <option value="August" selected>August</option>
+                            <option value="August">August</option>
                             <option value="September">September</option>
                             <option value="October">October</option>
                             <option value="November">November</option>
                             <option value="December">December</option>
                         </select>
-                        <input type="number" id="delDay" placeholder="Day" min="1" max="31" value="8" required>
-                        <input type="number" id="delYear" placeholder="Year" min="2026" max="2030" value="2026" required>
+                        <input type="number" id="delDay" placeholder="Day" min="1" max="31" required>
+                        <input type="number" id="delYear" placeholder="Year" min="2026" max="2030" required>
                     </div>
                 </div>
             </div>
@@ -373,7 +453,7 @@
                     </thead>
                     <tbody id="poTableBody">
                         <tr class="row-animation">
-                            <td><input type="text" maxlength="12" name="poNumber[]" inputmode="numeric" placeholder="xxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></td>
+                            <td><input type="text" maxlength="12" name="poNumber[]" inputmode="numeric" placeholder="xxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
                             <td><input type="text" name="noOfBoxes[]" inputmode="numeric" class="box-input" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
                             <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
                         </tr>
@@ -393,146 +473,254 @@
             </div>
 
             <button type="submit" id="submitBtn" class="btn-submit">Submit ASN Request</button>
-            
+            <button type="button" id="verifyBtn" class="btn-verify" onclick="openVerifyModal()">Verify your ASN</button>
         </form>
     </div>
 
-  
+    <!-- 1. MODAL PARA SA INPUT NG VERIFICATION -->
+    <div class="modal-overlay" id="verifyInputModal">
+        <div class="modal-card">
+            <div class="modal-header">Verify Your ASN</div>
+            <div class="modal-body">
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="vContactNumber">Contact Number</label>
+                    <input type="tel" id="vContactNumber" placeholder="09XXXXXXXXX" maxlength="11" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+                <div class="form-group">
+                    <label>Date of Delivery</label>
+                    <div class="custom-date-group">
+                        <select id="vDelMonth">
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                        <input type="number" id="vDelDay" placeholder="Day" min="1" max="31">
+                        <input type="number" id="vDelYear" placeholder="Year" min="2026" max="2030">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-modal-close" onclick="closeModal('verifyInputModal')">Cancel</button>
+                <button type="button" class="btn-modal-confirm" id="btnConfirmVerify" onclick="processVerification()">Verify</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MODAL PARA SA RESULTA -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-card" style="text-align: center;">
+            <div class="modal-header" id="resultHeader">Status</div>
+            <div class="modal-body" id="resultBody" style="font-size: 14px; line-height: 1.5; color: var(--text-main);"></div>
+            <button type="button" class="btn-modal-confirm" style="width: 100%;" onclick="closeModal('resultModal')">OK</button>
+        </div>
+    </div>
+
     <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxvzkMViQWWzrFRmJ4GoNAG5bCHAs96zds0TNfLiExNvFxF0yb9LMJenPhtXveGsudG/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7EFG9yBA6I_roBZchL0KhU0IiIpTHR4NAADM38PK8gBuKBR9JCItSEnqc5kR-fp4e/exec";
 
-// Auto-fill ng kasalukuyang petsa kapag binuksan ang page
-function setCurrentDate() {
-    const today = new Date();
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    
-    document.getElementById('delMonth').value = monthNames[today.getMonth()];
-    document.getElementById('delDay').value = today.getDate();
-    document.getElementById('delYear').value = today.getFullYear();
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    setCurrentDate();
-    calculateTotal(); // Patakbuhin sa simula para tamang 0 ang lumabas
-});
-
-function addRow() {
-    const tableBody = document.getElementById('poTableBody');
-    const newRow = document.createElement('tr');
-    newRow.className = 'row-animation';
-
-    newRow.innerHTML = `
-        <td><input type="text" name="poNumber[]" placeholder="xxxxxxxx" maxlength="12" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
-        <td><input type="number" name="noOfBoxes[]" class="box-input" min="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
-        <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
-    `;
-
-    tableBody.appendChild(newRow);
-    calculateTotal();
-}
-
-function removeRow(button) {
-    const tableBody = document.getElementById('poTableBody');
-    if (tableBody.getElementsByTagName('tr').length > 1) {
-        button.closest('tr').remove();
-        calculateTotal();
-    } else {
-        alert("Kailangan ng kahit isang P.O. Number.");
-    }
-}
-
-// Bibilangin lamang ang mga row na may tunay na laman
-function calculateTotal() {
-    const rows = document.querySelectorAll('#poTableBody tr');
-    let filledPoCount = 0;
-    let totalBoxes = 0;
-
-    rows.forEach(row => {
-        const poInput = row.querySelector('input[name="poNumber[]"]');
-        const boxInput = row.querySelector('input[name="noOfBoxes[]"]');
-
-        const poValue = poInput ? poInput.value.trim() : '';
-        const boxValue = boxInput ? parseInt(boxInput.value, 10) : 0;
-
-        // Bibilangin lang bilang valid PO Item kung hindi kwento/bo blanko ang PO number O may nalagay na box
-        if (poValue !== '' || (!isNaN(boxValue) && boxValue > 0)) {
-            filledPoCount++;
+        function setCurrentDate() {
+            const today = new Date();
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            
+            document.getElementById('delMonth').value = monthNames[today.getMonth()];
+            document.getElementById('delDay').value = today.getDate();
+            document.getElementById('delYear').value = today.getFullYear();
+            
+            document.getElementById('vDelMonth').value = monthNames[today.getMonth()];
+            document.getElementById('vDelDay').value = today.getDate();
+            document.getElementById('vDelYear').value = today.getFullYear();
         }
 
-        if (!isNaN(boxValue) && boxValue > 0) {
-            totalBoxes += boxValue;
+        window.addEventListener('DOMContentLoaded', () => {
+            setCurrentDate();
+            calculateTotal();
+        });
+
+        function addRow() {
+            const tableBody = document.getElementById('poTableBody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'row-animation';
+
+            newRow.innerHTML = `
+                <td><input type="text" name="poNumber[]" placeholder="xxxxxxxx" maxlength="12" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
+                <td><input type="text" name="noOfBoxes[]" class="box-input" inputmode="numeric" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
+                <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
+            `;
+
+            tableBody.appendChild(newRow);
+            calculateTotal();
         }
-    });
 
-    // I-update ang UI Display
-    document.getElementById('totalPoCount').innerText = filledPoCount;
-    document.getElementById('totalBoxesCount').innerText = totalBoxes;
-}
+        function removeRow(button) {
+            const tableBody = document.getElementById('poTableBody');
+            if (tableBody.getElementsByTagName('tr').length > 1) {
+                button.closest('tr').remove();
+                calculateTotal();
+            } else {
+                alert("Kailangan ng kahit isang P.O. Number.");
+            }
+        }
 
-document.getElementById('asnForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+        function calculateTotal() {
+            const rows = document.querySelectorAll('#poTableBody tr');
+            let filledPoCount = 0;
+            let totalBoxes = 0;
 
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Saving...";
+            rows.forEach(row => {
+                const poInput = row.querySelector('input[name="poNumber[]"]');
+                const boxInput = row.querySelector('input[name="noOfBoxes[]"]');
 
-    const supplierName = document.getElementById('supplierName').value;
-    const contactNumber = document.getElementById('contactNumber').value;
-    const month = document.getElementById('delMonth').value;
-    const day = document.getElementById('delDay').value;
-    const year = document.getElementById('delYear').value;
-    const deliveryDate = `${month} ${day}, ${year}`;
+                const poValue = poInput ? poInput.value.trim() : '';
+                const boxValue = boxInput ? parseInt(boxInput.value, 10) : 0;
 
-    const poNumbers = document.querySelectorAll('input[name="poNumber[]"]');
-    const boxCounts = document.querySelectorAll('input[name="noOfBoxes[]"]');
-    
-    let poDetails = [];
-    let totalBoxes = 0;
+                if (poValue !== '' || (!isNaN(boxValue) && boxValue > 0)) {
+                    filledPoCount++;
+                }
 
-    poNumbers.forEach((poInput, index) => {
-        const boxes = parseInt(boxCounts[index].value) || 0;
-        if (poInput.value.trim() !== "") {
-            poDetails.push({
-                poNumber: poInput.value.trim(),
-                boxes: boxes
+                if (!isNaN(boxValue) && boxValue > 0) {
+                    totalBoxes += boxValue;
+                }
             });
-            totalBoxes += boxes;
+
+            document.getElementById('totalPoCount').innerText = filledPoCount;
+            document.getElementById('totalBoxesCount').innerText = totalBoxes;
         }
-    });
 
-    const payload = {
-        supplierName: supplierName,
-        contactNumber: contactNumber,
-        deliveryDate: deliveryDate,
-        poDetails: poDetails,
-        totalBoxes: totalBoxes
-    };
+        function openVerifyModal() {
+            document.getElementById('vContactNumber').value = "";
+            setCurrentDate();
+            document.getElementById('verifyInputModal').classList.add('active');
+        }
 
-    fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(() => {
-        alert(`ASN Successfully Submit and Save, Receiving Time:\n\nMonday to Saturday: 8:00 AM – 3:00 PM\nSunday: 8:00 AM – 12:00 PM \n\nDelivery Date: ${deliveryDate}`);
-        location.reload();
-    })
-    .catch(error => {
-        console.error("Error!", error.message);
-        alert("Nagkaroon ng problema sa pag-save. Paki-subukan ulit.");
-    })
-    .finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Submit ASN Request";
-    });
-});
-</script>
+        function closeModal(modalId) {
+            const targetModal = document.getElementById(modalId);
+            if (targetModal) {
+                targetModal.classList.remove('active');
+            }
+        }
+
+        function processVerification() {
+            const contact = document.getElementById('vContactNumber').value.trim();
+            const month = document.getElementById('vDelMonth').value;
+            const day = document.getElementById('vDelDay').value;
+            const year = document.getElementById('vDelYear').value;
+            const deliveryDate = `${month} ${day}, ${year}`;
+
+            if (!contact) {
+                alert("Paki-lagay ang inyong Contact Number.");
+                return;
+            }
+
+            const btnConfirm = document.getElementById('btnConfirmVerify');
+            btnConfirm.disabled = true;
+            btnConfirm.innerText = "Checking...";
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "verify",
+                    contactNumber: contact,
+                    deliveryDate: deliveryDate
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                closeModal('verifyInputModal');
+                
+                if (data.status === "found") {
+                    document.getElementById('resultHeader').innerText = "ASN Confirmed!";
+                    document.getElementById('resultHeader').style.color = "var(--success)";
+                    document.getElementById('resultBody').innerHTML = `Your ASN on <b>${deliveryDate}</b> has been booked.<br><br><b>Receiving Time is 8 AM to 3 PM only.</b>`;
+                } else {
+                    document.getElementById('resultHeader').innerText = "Not Found";
+                    document.getElementById('resultHeader').style.color = "var(--danger)";
+                    document.getElementById('resultBody').innerHTML = `Walang nahanap na booking para sa contact number na <b>${contact}</b> sa petsang <b>${deliveryDate}</b>.`;
+                }
+                
+                document.getElementById('resultModal').classList.add('active');
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Nagkaroon ng error sa pag-verify. Paki-subukan ulit.");
+            })
+            .finally(() => {
+                btnConfirm.disabled = false;
+                btnConfirm.innerText = "Verify";
+            });
+        }
+
+        document.getElementById('asnForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Saving...";
+
+            const supplierName = document.getElementById('supplierName').value;
+            const contactNumber = document.getElementById('contactNumber').value;
+            const month = document.getElementById('delMonth').value;
+            const day = document.getElementById('delDay').value;
+            const year = document.getElementById('delYear').value;
+            const deliveryDate = `${month} ${day}, ${year}`;
+
+            const poNumbers = document.querySelectorAll('input[name="poNumber[]"]');
+            const boxCounts = document.querySelectorAll('input[name="noOfBoxes[]"]');
+            
+            let poDetails = [];
+            let totalBoxes = 0;
+
+            poNumbers.forEach((poInput, index) => {
+                const boxes = parseInt(boxCounts[index].value) || 0;
+                if (poInput.value.trim() !== "") {
+                    poDetails.push({
+                        poNumber: poInput.value.trim(),
+                        boxes: boxes
+                    });
+                    totalBoxes += boxes;
+                }
+            });
+
+            const payload = {
+                action: "submit",
+                supplierName: supplierName,
+                contactNumber: contactNumber,
+                deliveryDate: deliveryDate,
+                poDetails: poDetails,
+                totalBoxes: totalBoxes
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                alert(`ASN Successfully Submit and Save, Receiving Time:\n\nMonday to Saturday: 8:00 AM – 3:00 PM\nSunday: 8:00 AM – 12:00 PM \n\nDelivery Date: ${deliveryDate}`);
+                location.reload();
+            })
+            .catch(error => {
+                console.error("Error!", error.message);
+                alert("Nagkaroon ng problema sa pag-save. Paki-subukan ulit.");
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit ASN Request";
+            });
+        });
+    </script>
 
 </body>
 </html>
