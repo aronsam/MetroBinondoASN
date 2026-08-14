@@ -422,8 +422,8 @@
         newRow.className = 'row-animation';
 
         newRow.innerHTML = `
-            <td><input type="text" name="poNumber[]" placeholder="xxxxxxxx" maxlength="12" required></td>
-            <td><input type="number" name="noOfBoxes[]" class="box-input" min="1" placeholder="0" oninput="calculateTotal()" required></td>
+            <td><input type="text" name="poNumber[]" placeholder="xxxxxxxx" maxlength="12" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></td>
+            <td><input type="number" name="noOfBoxes[]" class="box-input" min="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
             <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
         `;
 
