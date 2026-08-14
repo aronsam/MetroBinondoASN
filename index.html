@@ -364,8 +364,8 @@
                     </thead>
                     <tbody id="poTableBody">
                         <tr class="row-animation">
-                            <td><input type="text" name="poNumber[]" placeholder="hal. 1234567890" required></td>
-                            <td><input type="number" name="noOfBoxes[]" class="box-input" min="1" placeholder="0" oninput="calculateTotal()" required></td>
+                            <td><input type="text" name="poNumber[]" inputmode="numeric" placeholder="xxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></td>
+                            <td><input type="text" name="noOfBoxes[]" inputmode="numeric" class="box-input" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
                             <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
                         </tr>
                     </tbody>
