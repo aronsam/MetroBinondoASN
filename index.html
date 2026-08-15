@@ -48,12 +48,29 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
+        /* --- INUPDATE NA HEADER CSS --- */
         .header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px dashed #e2e8f0;
-        }
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #e2e8f0;
+}
+
+        .header-logo {
+    width: 99px;
+    height: 99px;
+    object-fit: contain;
+    position: absolute; /* Inilalagay ang logo sa kaliwa nang hindi naaapektuhan ang gitnang text */
+    left: 0;
+}
+
+        .header-content {
+    width: 100%;
+    text-align: center; /* Naka-center ang lahat ng teksto */
+    padding: 0 98px; /* Nilalagyan ng space sa magkabilang gilid para hindi mapatungan ng logo */
+}
 
         .header .badge {
             display: inline-block;
@@ -65,7 +82,7 @@
             letter-spacing: 1px;
             padding: 4px 12px;
             border-radius: 20px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .header h1 {
@@ -73,7 +90,8 @@
             font-size: 24px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            line-height: 1.2;
         }
 
         .header p {
@@ -389,16 +407,22 @@
             .form-group.full-width { grid-column: span 1; }
             .custom-date-group { grid-template-columns: 1fr; }
             .form-group input, .form-group select, .po-table input { padding: 12px 10px; font-size: 15px; }
+            .header-logo { width: 50px; height: 50px; }
+            .header h1 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- INUPDATE NA HEADER STRUCTURE -->
         <div class="header">
-            <span class="badge">Binondo Branch</span>
-            <h1>Metro Supermarket</h1>
-            <p>Advance Shipping Notice (ASN) Form</p>
+            <img src="metrologo.png" alt="Metro Logo" class="header-logo">
+            <div class="header-content">
+                <span class="badge">Binondo Branch</span>
+                <h1>Metro Supermarket</h1>
+                <p>Advance Shipping Notice (ASN) Form</p>
+            </div>
         </div>
 
         <form id="asnForm">
