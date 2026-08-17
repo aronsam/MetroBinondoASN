@@ -5,9 +5,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Metro Supermarket Binondo - ASN Form">
     <meta property="og:description" content="Advance Shipping Notice (ASN) Booking Form for Metro Supermarket Binondo Branch.">
-    <!-- Naka-link na sa totoong URL ng logo mo -->
     <meta property="og:image" content="https://aronsam.github.io/MetroBinondoASN/metrologo.png">
-    <!-- Naka-link na sa totoong URL ng site mo -->
     <meta property="og:url" content="https://aronsam.github.io/MetroBinondoASN/index.html">
 
     <!-- Twitter Card Meta Tags -->
@@ -19,8 +17,6 @@
     <!-- Favicon para sa Browser Tab -->
     <link rel="icon" type="image/png" href="metrologo.png">
     
-
-     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metro Supermarket Binondo - ASN</title>
@@ -68,30 +64,29 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        /* --- INUPDATE NA HEADER CSS --- */
         .header {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px dashed #e2e8f0;
-}
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #e2e8f0;
+        }
 
         .header-logo {
-    width: 130px;
-    height: 130px;
-    object-fit: contain;
-    position: absolute; /* Inilalagay ang logo sa kaliwa nang hindi naaapektuhan ang gitnang text */
-    left: 0;
-}
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+            position: absolute;
+            left: 0;
+        }
 
         .header-content {
-    width: 100%;
-    text-align: center; /* Naka-center ang lahat ng teksto */
-    padding-left: 20px; /* Space para sa logo sa kaliwa */
+            width: 100%;
+            text-align: center;
+            padding-left: 20px;
             padding-right: 20px;
-}
+        }
 
         .header .badge {
             display: inline-block;
@@ -226,13 +221,12 @@
         }
 
         .po-table th:nth-child(1) { width: 50%; }
-.po-table th:nth-child(2) { width: 30%; }
-.po-table th:nth-child(3) { width: 20%; text-align: center; }
+        .po-table th:nth-child(2) { width: 30%; }
+        .po-table th:nth-child(3) { width: 20%; text-align: center; }
 
-.po-table input[name="poNumber[]"] {
-    width: 100%;
-    /* Tinanggal ang min-width: 140px para hindi lumagpas sa screen */
-}
+        .po-table input[name="poNumber[]"] {
+            width: 100%;
+        }
 
         .po-table input:focus {
             outline: none;
@@ -440,7 +434,6 @@
 <body>
 
     <div class="container">
-        <!-- INUPDATE NA HEADER STRUCTURE -->
         <div class="header">
             <img src="metrologo.png" alt="Metro Logo" class="header-logo">
             <div class="header-content">
@@ -539,6 +532,7 @@
                     <label>Date of Delivery</label>
                     <div class="custom-date-group">
                         <select id="vDelMonth">
+                            <option value="">Month</option>
                             <option value="January">January</option>
                             <option value="February">February</option>
                             <option value="March">March</option>
@@ -573,203 +567,261 @@
         </div>
     </div>
 
-    <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7EFG9yBA6I_roBZchL0KhU0IiIpTHR4NAADM38PK8gBuKBR9JCItSEnqc5kR-fp4e/exec";
+  <script>
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7EFG9yBA6I_roBZchL0KhU0IiIpTHR4NAADM38PK8gBuKBR9JCItSEnqc5kR-fp4e/exec";
 
-        function setCurrentDate() {
-            const today = new Date();
-            const monthNames = [
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
-            
-            document.getElementById('delMonth').value = monthNames[today.getMonth()];
-            document.getElementById('delDay').value = today.getDate();
-            document.getElementById('delYear').value = today.getFullYear();
-            
-            document.getElementById('vDelMonth').value = monthNames[today.getMonth()];
-            document.getElementById('vDelDay').value = today.getDate();
-            document.getElementById('vDelYear').value = today.getFullYear();
-        }
+    window.addEventListener('DOMContentLoaded', () => {
+        calculateTotal();
+    });
 
-        window.addEventListener('DOMContentLoaded', () => {
-            setCurrentDate();
+    // Function para suriin kung totoong umiiral ang petsa
+    function isValidDate(monthName, day, year) {
+        const months = [
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        ];
+        
+        const monthIndex = months.indexOf(monthName);
+        if (monthIndex === -1) return false;
+        
+        const numDay = Number(day);
+        const numYear = Number(year);
+        
+        if (isNaN(numDay) || isNaN(numYear) || numDay <= 0) return false;
+        
+        const testDate = new Date(numYear, monthIndex, numDay);
+        
+        return testDate.getFullYear() === numYear && 
+               testDate.getMonth() === monthIndex && 
+               testDate.getDate() === numDay;
+    }
+
+    // Function para suriin kung ang petsa ay BUKAS O SUSUNOD PA (Bawal ngayon at nakalipas na petsa)
+    function isFutureDate(monthName, day, year) {
+        const months = [
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        ];
+        
+        const monthIndex = months.indexOf(monthName);
+        const numDay = Number(day);
+        const numYear = Number(year);
+
+        const selectedDate = new Date(numYear, monthIndex, numDay);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Kakailanganin na ang napiling petsa ay HIGIT PA sa ngayong araw (bukas pataas)
+        return selectedDate > today;
+    }
+
+    function addRow() {
+        const tableBody = document.getElementById('poTableBody');
+        const newRow = document.createElement('tr');
+        newRow.className = 'row-animation';
+
+        newRow.innerHTML = `
+            <td><input type="text" name="poNumber[]" placeholder="xxxxxxxx" maxlength="12" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
+            <td><input type="text" name="noOfBoxes[]" class="box-input" inputmode="numeric" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
+            <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
+        `;
+
+        tableBody.appendChild(newRow);
+        calculateTotal();
+    }
+
+    function removeRow(button) {
+        const tableBody = document.getElementById('poTableBody');
+        if (tableBody.getElementsByTagName('tr').length > 1) {
+            button.closest('tr').remove();
             calculateTotal();
+        } else {
+            alert("Kailangan ng kahit isang P.O. Number.");
+        }
+    }
+
+    function calculateTotal() {
+        const rows = document.querySelectorAll('#poTableBody tr');
+        let filledPoCount = 0;
+        let totalBoxes = 0;
+
+        rows.forEach(row => {
+            const poInput = row.querySelector('input[name="poNumber[]"]');
+            const boxInput = row.querySelector('input[name="noOfBoxes[]"]');
+
+            const poValue = poInput ? poInput.value.trim() : '';
+            const boxValue = boxInput ? parseInt(boxInput.value, 10) : 0;
+
+            if (poValue !== '' || (!isNaN(boxValue) && boxValue > 0)) {
+                filledPoCount++;
+            }
+
+            if (!isNaN(boxValue) && boxValue > 0) {
+                totalBoxes += boxValue;
+            }
         });
 
-        function addRow() {
-            const tableBody = document.getElementById('poTableBody');
-            const newRow = document.createElement('tr');
-            newRow.className = 'row-animation';
+        document.getElementById('totalPoCount').innerText = filledPoCount;
+        document.getElementById('totalBoxesCount').innerText = totalBoxes;
+    }
 
-            newRow.innerHTML = `
-                <td><input type="text" name="poNumber[]" placeholder="xxxxxxxx" maxlength="12" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
-                <td><input type="text" name="noOfBoxes[]" class="box-input" inputmode="numeric" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateTotal();" required></td>
-                <td style="text-align: center;"><button type="button" class="btn-delete" onclick="removeRow(this)">Remove</button></td>
-            `;
+    function openVerifyModal() {
+        document.getElementById('vContactNumber').value = "";
+        document.getElementById('vDelMonth').value = "";
+        document.getElementById('vDelDay').value = "";
+        document.getElementById('vDelYear').value = "";
+        document.getElementById('verifyInputModal').classList.add('active');
+    }
 
-            tableBody.appendChild(newRow);
-            calculateTotal();
+    function closeModal(modalId) {
+        const targetModal = document.getElementById(modalId);
+        if (targetModal) {
+            targetModal.classList.remove('active');
+        }
+    }
+
+    function processVerification() {
+        const contact = document.getElementById('vContactNumber').value.trim();
+        const month = document.getElementById('vDelMonth').value;
+        const day = document.getElementById('vDelDay').value;
+        const year = document.getElementById('vDelYear').value;
+
+        if (!contact || !month || !day || !year) {
+            alert("Paki-kumpleto ang Contact Number at Delivery Date para sa verification.");
+            return;
         }
 
-        function removeRow(button) {
-            const tableBody = document.getElementById('poTableBody');
-            if (tableBody.getElementsByTagName('tr').length > 1) {
-                button.closest('tr').remove();
-                calculateTotal();
+        // 1. Valid date check
+        if (!isValidDate(month, day, year)) {
+            alert(`Maling Petsa! Ang ${month} ay walang araw na ${day}. Paki-ayos bago mag-patuloy.`);
+            document.getElementById('vDelDay').focus();
+            return;
+        }
+
+        const deliveryDate = `${month} ${day}, ${year}`;
+
+        const btnConfirm = document.getElementById('btnConfirmVerify');
+        btnConfirm.disabled = true;
+        btnConfirm.innerText = "Checking...";
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+                action: "verify",
+                contactNumber: contact,
+                deliveryDate: deliveryDate
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            closeModal('verifyInputModal');
+            
+            if (data.status === "found") {
+                document.getElementById('resultHeader').innerText = "ASN Confirmed!";
+                document.getElementById('resultHeader').style.color = "var(--success)";
+                document.getElementById('resultBody').innerHTML = `Your ASN on <b>${deliveryDate}</b> has been booked.<br><br><b>Receiving Time is 8 AM to 3 PM only.</b>`;
             } else {
-                alert("Kailangan ng kahit isang P.O. Number.");
+                document.getElementById('resultHeader').innerText = "Not Found";
+                document.getElementById('resultHeader').style.color = "var(--danger)";
+                document.getElementById('resultBody').innerHTML = `Walang nahanap na booking para sa contact number na <b>${contact}</b> sa petsang <b>${deliveryDate}</b>.`;
             }
-        }
-
-        function calculateTotal() {
-            const rows = document.querySelectorAll('#poTableBody tr');
-            let filledPoCount = 0;
-            let totalBoxes = 0;
-
-            rows.forEach(row => {
-                const poInput = row.querySelector('input[name="poNumber[]"]');
-                const boxInput = row.querySelector('input[name="noOfBoxes[]"]');
-
-                const poValue = poInput ? poInput.value.trim() : '';
-                const boxValue = boxInput ? parseInt(boxInput.value, 10) : 0;
-
-                if (poValue !== '' || (!isNaN(boxValue) && boxValue > 0)) {
-                    filledPoCount++;
-                }
-
-                if (!isNaN(boxValue) && boxValue > 0) {
-                    totalBoxes += boxValue;
-                }
-            });
-
-            document.getElementById('totalPoCount').innerText = filledPoCount;
-            document.getElementById('totalBoxesCount').innerText = totalBoxes;
-        }
-
-        function openVerifyModal() {
-            document.getElementById('vContactNumber').value = "";
-            setCurrentDate();
-            document.getElementById('verifyInputModal').classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            const targetModal = document.getElementById(modalId);
-            if (targetModal) {
-                targetModal.classList.remove('active');
-            }
-        }
-
-        function processVerification() {
-            const contact = document.getElementById('vContactNumber').value.trim();
-            const month = document.getElementById('vDelMonth').value;
-            const day = document.getElementById('vDelDay').value;
-            const year = document.getElementById('vDelYear').value;
-            const deliveryDate = `${month} ${day}, ${year}`;
-
-            if (!contact) {
-                alert("Paki-lagay ang inyong Contact Number.");
-                return;
-            }
-
-            const btnConfirm = document.getElementById('btnConfirmVerify');
-            btnConfirm.disabled = true;
-            btnConfirm.innerText = "Checking...";
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "verify",
-                    contactNumber: contact,
-                    deliveryDate: deliveryDate
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                closeModal('verifyInputModal');
-                
-                if (data.status === "found") {
-                    document.getElementById('resultHeader').innerText = "ASN Confirmed!";
-                    document.getElementById('resultHeader').style.color = "var(--success)";
-                    document.getElementById('resultBody').innerHTML = `Your ASN on <b>${deliveryDate}</b> has been booked.<br><br><b>Receiving Time is 8 AM to 3 PM only.</b>`;
-                } else {
-                    document.getElementById('resultHeader').innerText = "Not Found";
-                    document.getElementById('resultHeader').style.color = "var(--danger)";
-                    document.getElementById('resultBody').innerHTML = `Walang nahanap na booking para sa contact number na <b>${contact}</b> sa petsang <b>${deliveryDate}</b>.`;
-                }
-                
-                document.getElementById('resultModal').classList.add('active');
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Nagkaroon ng error sa pag-verify. Paki-subukan ulit.");
-            })
-            .finally(() => {
-                btnConfirm.disabled = false;
-                btnConfirm.innerText = "Verify";
-            });
-        }
-
-        document.getElementById('asnForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Saving...";
-
-            const supplierName = document.getElementById('supplierName').value;
-            const contactNumber = document.getElementById('contactNumber').value;
-            const month = document.getElementById('delMonth').value;
-            const day = document.getElementById('delDay').value;
-            const year = document.getElementById('delYear').value;
-            const deliveryDate = `${month} ${day}, ${year}`;
-
-            const poNumbers = document.querySelectorAll('input[name="poNumber[]"]');
-            const boxCounts = document.querySelectorAll('input[name="noOfBoxes[]"]');
             
-            let poDetails = [];
-            let totalBoxes = 0;
-
-            poNumbers.forEach((poInput, index) => {
-                const boxes = parseInt(boxCounts[index].value) || 0;
-                if (poInput.value.trim() !== "") {
-                    poDetails.push({
-                        poNumber: poInput.value.trim(),
-                        boxes: boxes
-                    });
-                    totalBoxes += boxes;
-                }
-            });
-
-            const payload = {
-                action: "submit",
-                supplierName: supplierName,
-                contactNumber: contactNumber,
-                deliveryDate: deliveryDate,
-                poDetails: poDetails,
-                totalBoxes: totalBoxes
-            };
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify(payload)
-            })
-            .then(() => {
-                alert(`ASN Successfully Submit and Save, Receiving Time:\n\nMonday to Saturday: 8:00 AM – 3:00 PM\nSunday: 8:00 AM – 12:00 PM \n\nDelivery Date: ${deliveryDate}`);
-                location.reload();
-            })
-            .catch(error => {
-                console.error("Error!", error.message);
-                alert("Nagkaroon ng problema sa pag-save. Paki-subukan ulit.");
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit ASN Request";
-            });
+            document.getElementById('resultModal').classList.add('active');
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Nagkaroon ng error sa pag-verify. Paki-subukan ulit.");
+        })
+        .finally(() => {
+            btnConfirm.disabled = false;
+            btnConfirm.innerText = "Verify";
         });
-    </script>
+    }
+
+    // --- FORM SUBMIT EVENT LISTENER ---
+    document.getElementById('asnForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const supplierName = document.getElementById('supplierName').value.trim();
+        const contactNumber = document.getElementById('contactNumber').value.trim();
+        const month = document.getElementById('delMonth').value;
+        const day = document.getElementById('delDay').value.trim();
+        const year = document.getElementById('delYear').value.trim();
+
+        // 1. Pagsuri kung may kulang na fields
+        if (!supplierName || !contactNumber || !month || !day || !year) {
+            alert("Paki-kumpleto muna ang Supplier Name, Contact Number, at kumpletong Delivery Date.");
+            return;
+        }
+
+        // 2. ISAGAWA ANG DATE VALIDATION CHECK (Umiiral na petsa)
+        if (!isValidDate(month, day, year)) {
+            alert(`Maling Petsa! Ang ${month} ay walang araw na ${day}. Paki-ayos bago mag-patuloy.`);
+            document.getElementById('delDay').focus();
+            return;
+        }
+
+        // 3. CHECK KUNG BUKAS PATAAS ANG PETSA (Bawal ngayong araw o nakalipas na petsa)
+        if (!isFutureDate(month, day, year)) {
+            alert("Bawal mag-book ngayong araw o sa mga nakalipas na petsa. Ang pwede lang i-book ay simula bukas pataas.");
+            document.getElementById('delDay').focus();
+            return;
+        }
+
+        // 4. KUNG VALID AT PASOK SA CONDITION: Patuloy na ipapadala sa Google Apps Script
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Saving...";
+
+        const deliveryDate = `${month} ${day}, ${year}`;
+        const poNumbers = document.querySelectorAll('input[name="poNumber[]"]');
+        const boxCounts = document.querySelectorAll('input[name="noOfBoxes[]"]');
+        
+        let poDetails = [];
+        let totalBoxes = 0;
+
+        poNumbers.forEach((poInput, index) => {
+            const boxes = parseInt(boxCounts[index].value) || 0;
+            if (poInput.value.trim() !== "") {
+                poDetails.push({
+                    poNumber: poInput.value.trim(),
+                    boxes: boxes
+                });
+                totalBoxes += boxes;
+            }
+        });
+
+        const payload = {
+            action: "submit",
+            supplierName: supplierName,
+            contactNumber: contactNumber,
+            deliveryDate: deliveryDate,
+            poDetails: poDetails,
+            totalBoxes: totalBoxes
+        };
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            alert(`ASN Successfully Submit and Save, Receiving Time:\n\nMonday to Saturday: 8:00 AM – 3:00 PM\nSunday: 8:00 AM – 12:00 PM \n\nDelivery Date: ${deliveryDate}`);
+            location.reload();
+        })
+        .catch(error => {
+            console.error("Error!", error.message);
+            alert("Nagkaroon ng problema sa pag-save. Paki-subukan ulit.");
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Submit ASN Request";
+        });
+    });
+</script>
 
 </body>
 </html>
