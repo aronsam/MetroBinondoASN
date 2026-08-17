@@ -18,7 +18,7 @@
 
     <!-- Favicon para sa Browser Tab -->
     <link rel="icon" type="image/png" href="metrologo.png">
-
+    
 
      
     <meta charset="UTF-8">
@@ -89,7 +89,7 @@
         .header-content {
     width: 100%;
     text-align: center; /* Naka-center ang lahat ng teksto */
-    padding: 0 130px; /* Nilalagyan ng space sa magkabilang gilid para hindi mapatungan ng logo */
+    padding-left: 80px; /* Space para sa logo sa kaliwa */
 }
 
         .header .badge {
@@ -224,11 +224,14 @@
             font-size: 14px;
         }
 
-        .po-table input[name="poNumber[]"] {
-            width: 100%;
-            min-width: 140px; 
-            max-width: 100%;
-        }
+        .po-table th:nth-child(1) { width: 50%; }
+.po-table th:nth-child(2) { width: 30%; }
+.po-table th:nth-child(3) { width: 20%; text-align: center; }
+
+.po-table input[name="poNumber[]"] {
+    width: 100%;
+    /* Tinanggal ang min-width: 140px para hindi lumagpas sa screen */
+}
 
         .po-table input:focus {
             outline: none;
